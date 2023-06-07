@@ -7,16 +7,26 @@ import { useForm } from "react-hook-form";
 const SignUp = () => {
   useTitle("SignUp");
   const { createUser } = useContext(AuthContext);
-  const { register, handleSubmit, setError, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm();
 
   const onSubmit = async (data) => {
     try {
-      const { name, email, password, photoUrl } = data;
-      console.log(name, email, password);
-
+      const { email, password, name, photoUrl } = data;
       const result = await createUser(email, password);
+
       const user = result.user;
-      console.log("created user", user);
+      const updatedUser = {
+        ...user,
+        displayName: name,
+        photoURL: photoUrl || null,
+      };
+
+      console.log("created user", updatedUser);
     } catch (error) {
       console.error(error);
       setError("general", {
@@ -42,7 +52,9 @@ const SignUp = () => {
                 placeholder="name"
                 className="input input-bordered"
               />
-              {errors.name && <span className="text-red-500">Name is required</span>}
+              {errors.name && (
+                <span className="text-red-500">Name is required</span>
+              )}
             </div>
             <div className="form-control">
               <label className="label">
@@ -54,7 +66,9 @@ const SignUp = () => {
                 placeholder="email"
                 className="input input-bordered"
               />
-              {errors.email && <span className="text-red-500">Email is required</span>}
+              {errors.email && (
+                <span className="text-red-500">Email is required</span>
+              )}
             </div>
             <div className="form-control">
               <label className="label">
@@ -77,7 +91,9 @@ const SignUp = () => {
                 placeholder="password"
                 className="input input-bordered"
               />
-              {errors.password && <span className="text-red-500">Password is required</span>}
+              {errors.password && (
+                <span className="text-red-500">Password is required</span>
+              )}
               <label className="label">
                 <a href="#" className="label-text-alt link link-hover">
                   Forgot password?
@@ -92,13 +108,15 @@ const SignUp = () => {
               />
             </div>
           </form>
-          {errors.general && <p className="text-red-500 mb-4">{errors.general.message}</p>}
+          {errors.general && (
+            <p className="text-red-500 mb-4">{errors.general.message}</p>
+          )}
 
           <p className="my-4 text-center">
-            Already Have an Account?{" "}
+            Already Have an Account?
             <Link className="text-orange-600 font-bold" to="/login">
               Login
-            </Link>{" "}
+            </Link>
           </p>
         </div>
       </div>
