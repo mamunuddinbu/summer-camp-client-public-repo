@@ -2,10 +2,10 @@ import { createBrowserRouter } from "react-router-dom";
 import Main from "./layout/Main";
 import Home from "./pages/home/Home";
 import Login from "./pages/auth/Login";
-import Registration from "./pages/auth/Registration";
-import Instructors from "./pages/auth/Instructors";
-import Classes from "./pages/auth/Classes";
-import NotFound from "./pages/NotFound";
+import Instructors from "./pages/home/Instructors";
+import Classes from "./pages/home/Classes";
+import NotFound from "./pages/NotFound/NotFound";
+import SignUp from "./pages/auth/SignUp";
 
 const router = createBrowserRouter([
   {
@@ -14,7 +14,7 @@ const router = createBrowserRouter([
     children:[
         {path: "/", element:<Home></Home>},
         {path: "/login", element:<Login></Login>},
-        {path: "/registration ", element:<Registration></Registration>},
+        {path: "/sign-up", element: <SignUp></SignUp>},
         {path: "/instructors", element:<Instructors></Instructors>},
         {path: "/classes", element:<Classes></Classes>},
         // {path: "/", element:<Home></Home>},

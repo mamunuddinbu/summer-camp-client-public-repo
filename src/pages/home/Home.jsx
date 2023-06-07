@@ -4,8 +4,10 @@ import React from 'react';
 // import ExtraSection from '../components/ExtraSection';
 import Slider from './compo/Slider';
 import SliderComponent from './compo/Slider';
+import useTitle from '../../hooks/useTitle';
 
 const Home = () => {
+  useTitle('Home..');
   return (
     <div>
       <SliderComponent/>
