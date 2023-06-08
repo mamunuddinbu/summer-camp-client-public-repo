@@ -5,13 +5,16 @@ import React from 'react';
 import Slider from './compo/Slider';
 import SliderComponent from './compo/Slider';
 import useTitle from '../../hooks/useTitle';
+import PopularClasses from './compo/PopularClasses';
 
 const Home = () => {
   useTitle('Home..');
   return (
     <div>
       <SliderComponent/>
-      {/* <PopularClasses />
+
+      <PopularClasses/>
+      {/* 
       <PopularInstructors />
       <ExtraSection /> */}
     </div>

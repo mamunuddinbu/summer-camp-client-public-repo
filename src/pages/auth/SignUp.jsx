@@ -1,12 +1,15 @@
 import { Link } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "./AuthProvider";
 import useTitle from "../../hooks/useTitle";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const SignUp = () => {
   useTitle("SignUp");
   const { createUser, updateUserProfile } = useContext(AuthContext);
+  const [singUpError, setSignUpError] = useState('');
   const {
     register,
     handleSubmit,
@@ -15,38 +18,90 @@ const SignUp = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (data) => {
-    try {
-      const { email, password, name, photoUrl } = data;
-      console.log(data);
-      const result = await createUser(email, password)
+  // const onSubmit = async (data) => {
+  //   try {
+  //     const { email, password, name, photoUrl } = data;
+  //     console.log(data);
+  //     const result = await createUser(email, password)
 
 
 
 
-      const user = result.user;
-      const updatedUser = {
-        ...user,
-        displayName: name,
-        photoURL: photoUrl || null,
-      };
+  //     const user = result.user;
+  //     const updatedUser = {
+  //       ...user,
+  //       displayName: name,
+  //       photoURL: photoUrl || null,
+  //     };
 
-    //   updateUserProfile(name, photoUrl).then(
-    //     result=>{
-    //       const  loggedUser=result.user;
-    //       console.log('Updated user' );
-    //     }
-    //   )
+  //   //   updateUserProfile(name, photoUrl).then(
+  //   //     result=>{
+  //   //       const  loggedUser=result.user;
+  //   //       console.log('Updated user' );
+  //   //     }
+  //   //   )
 
-      console.log("created user", updatedUser);
-    } catch (error) {
-      console.error(error);
-      setError("general", {
-        type: "manual",
-        message: error.message,
-      });
-    }
-  };
+  //     console.log("created user", updatedUser);
+  //   } catch (error) {
+  //     console.error(error);
+  //     setError("general", {
+  //       type: "manual",
+  //       message: error.message,
+  //     });
+  //   }
+  // };
+
+
+  const onSubmit = (data) => {
+    console.log();
+    setSignUpError('');
+    createUser(data.email, data.password)
+        .then(result => {
+            toast('User Created Successfully.')
+            const userInfo = {
+                displayName: data.name,
+            }
+            updateUserProfile(data.name,data.photoURL)
+                .then(() => {
+                  console.log(data.photoURL, data.name);
+                    console.log("lolololo" );
+                    Swal.fire({
+                      position: 'top-end',
+                      icon: 'success',
+                      title: 'Your work has been saved',
+                      showConfirmButton: false,
+                      timer: 1500
+                    })
+                })
+                .catch(err => console.log("update1 ",err));
+        })
+        .catch(error => {
+            console.log(error)
+            setSignUpError(error.message)
+        })
+
+    // const saveUser = (name, email) => {
+    //     const role = 'seller'
+    //     const user = { name, email, role };
+    //     fetch('https://tech-com-server.vercel.app/users', {
+    //         method: 'POST',
+    //         headers: {
+    //             'content-type': 'application/json'
+    //         },
+    //         body: JSON.stringify(user)
+    //     })
+    //         .then(res => res.json())
+    //         .then(data => {
+    //             setCreateUserEmail(email)
+    //         })
+    // }
+
+}
+
+
+
+
+
 
   return (
     <div className="bg-base-200 min-h-screen">
