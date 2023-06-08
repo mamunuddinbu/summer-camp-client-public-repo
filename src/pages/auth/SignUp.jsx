@@ -6,18 +6,23 @@ import { useForm } from "react-hook-form";
 
 const SignUp = () => {
   useTitle("SignUp");
-  const { createUser } = useContext(AuthContext);
+  const { createUser, updateUserProfile } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
     setError,
+    reset,
     formState: { errors },
   } = useForm();
 
   const onSubmit = async (data) => {
     try {
       const { email, password, name, photoUrl } = data;
-      const result = await createUser(email, password);
+      console.log(data);
+      const result = await createUser(email, password)
+
+
+
 
       const user = result.user;
       const updatedUser = {
@@ -25,6 +30,13 @@ const SignUp = () => {
         displayName: name,
         photoURL: photoUrl || null,
       };
+
+    //   updateUserProfile(name, photoUrl).then(
+    //     result=>{
+    //       const  loggedUser=result.user;
+    //       console.log('Updated user' );
+    //     }
+    //   )
 
       console.log("created user", updatedUser);
     } catch (error) {

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { createContext } from 'react';
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
 import app from '../../firebase/firebase.config';
 import { useEffect } from 'react';
 import { useState } from 'react';
@@ -36,6 +36,11 @@ const AuthProvider = ({children}) => {
     };
     
     ///////////////////////////////////////////////
+    const updateUserProfile = (name, photo) => {
+        return updateProfile(auth.currentUser, {
+            displayName: name, photoURL: photo
+        });
+    }
 
     useEffect(()=>{
         const unsubscribe = onAuthStateChanged(auth, loggedUser => {
@@ -56,7 +61,7 @@ const AuthProvider = ({children}) => {
         signIn,
         logOut,
         googleLoginProvider,
-        
+        updateUserProfile
     }
 
     return (

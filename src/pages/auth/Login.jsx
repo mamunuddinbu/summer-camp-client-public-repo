@@ -3,6 +3,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "./AuthProvider";
 import useTitle from "../../hooks/useTitle";
 import { GoogleAuthProvider } from "firebase/auth";
+import Swal from "sweetalert2";
 
 const Login = () => {
   useTitle('Login')
@@ -22,6 +23,13 @@ const Login = () => {
       .then((result) => {
         const user = result.user;
         console.log(user);
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Your work has been saved',
+            showConfirmButton: false,
+            timer: 1500
+          })
         navigate(from, { replace: true });
       })
       .catch((error) => {

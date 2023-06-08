@@ -10,7 +10,7 @@ const PrivateRoute = ({ children }) => {
   console.log('user in private route', user);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <progress className="progress w-56"></progress>
   }
 
   if (user?.email) {
