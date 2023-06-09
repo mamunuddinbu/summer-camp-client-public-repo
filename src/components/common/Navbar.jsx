@@ -50,6 +50,7 @@ console.log(takeImg);
                 />
               </Link>
             </li>
+            <li>{user?.email}</li>
             <li>
               <button onClick={handleLogout}>LogOut</button>
             </li>

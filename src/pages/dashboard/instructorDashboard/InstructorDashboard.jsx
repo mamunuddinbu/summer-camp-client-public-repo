@@ -1,10 +1,10 @@
 import React from "react";
-import { Route, Switch, Link, useRouteMatch } from "react-router-dom";
+import {  Link } from "react-router-dom";
 import AddClassForm from "./AddClassForm";
 import MyClasses from "./MyClasses";
 
 const InstructorDashboard = () => {
-  const { path, url } = useRouteMatch();
+//   const { path, url } = useRouteMatch();
 
   return (
     <div className="container mx-auto p-4">
@@ -13,7 +13,7 @@ const InstructorDashboard = () => {
         <ul className="flex">
           <li className="mr-2">
             <Link
-              to={`${url}/add-class`}
+            //   to={`${url}/add-class`}
               className="bg-blue-500 text-white px-4 py-2 rounded-md"
             >
               Add a Class
@@ -21,7 +21,7 @@ const InstructorDashboard = () => {
           </li>
           <li>
             <Link
-              to={`${url}/my-classes`}
+            //   to={`${url}/my-classes`}
               className="bg-blue-500 text-white px-4 py-2 rounded-md"
             >
               My Classes
@@ -29,7 +29,7 @@ const InstructorDashboard = () => {
           </li>
         </ul>
       </nav>
-      <Switch>
+      {/* <Switch>
         <Route exact path={path}>
           <h2 className="text-xl">Welcome, Instructor!</h2>
         </Route>
@@ -39,7 +39,7 @@ const InstructorDashboard = () => {
         <Route path={`${path}/my-classes`}>
           <MyClasses />
         </Route>
-      </Switch>
+      </Switch> */}
     </div>
   );
 };

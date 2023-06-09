@@ -8,7 +8,7 @@ import NotFound from "./pages/NotFound/NotFound";
 import SignUp from "./pages/auth/SignUp";
 import PrivateRoute from "./pages/home/compo/PrivateRoute";
 import Dashboard from "./pages/dashboard/Dashboard";
-import StudentDashboard from "./pages/dashboard/studentDashboard/StudentDashboard";
+// import StudentDashboard from "./pages/dashboard/studentDashboard/StudentDashboard";
 // import InstructorDashboard from "./pages/dashboard/instructorDashboard/InstructorDashboard";
 import AdminDashboard from "./pages/dashboard/adminDashboard/AdminDashboard";
 
