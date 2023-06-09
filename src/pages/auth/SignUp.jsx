@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 const SignUp = () => {
   useTitle("SignUp");
   const { createUser, updateUserProfile } = useContext(AuthContext);
-  const [singUpError, setSignUpError] = useState('');
+  const [signUpError, setSignUpError] = useState('');
   const {
     register,
     handleSubmit,
@@ -17,89 +17,31 @@ const SignUp = () => {
     formState: { errors },
   } = useForm();
 
-  // const onSubmit = async (data) => {
-  //   try {
-  //     const { email, password, name, photoUrl } = data;
-  //     console.log(data);
-  //     const result = await createUser(email, password)
-
-
-
-
-  //     const user = result.user;
-  //     const updatedUser = {
-  //       ...user,
-  //       displayName: name,
-  //       photoURL: photoUrl || null,
-  //     };
-
-  //   //   updateUserProfile(name, photoUrl).then(
-  //   //     result=>{
-  //   //       const  loggedUser=result.user;
-  //   //       console.log('Updated user' );
-  //   //     }
-  //   //   )
-
-  //     console.log("created user", updatedUser);
-  //   } catch (error) {
-  //     console.error(error);
-  //     setError("general", {
-  //       type: "manual",
-  //       message: error.message,
-  //     });
-  //   }
-  // };
-
-
   const onSubmit = (data) => {
-    console.log();
     setSignUpError('');
     createUser(data.email, data.password)
-        .then(result => {
-            const userInfo = {
-                displayName: data.name,
-            }
-            updateUserProfile(data.name,data.photoUrl)
-                .then(() => {
-                  console.log(data.photoUrl, data.name);
-                    console.log("lolololo" );
-                    Swal.fire({
-                      position: 'top-end',
-                      icon: 'success',
-                      title: 'Your work has been saved',
-                      showConfirmButton: false,
-                      timer: 1500
-                    })
-                })
-                .catch(err => console.log("update1 ",err));
-        })
-        .catch(error => {
-            console.log(error)
-            setSignUpError(error.message)
-        })
-
-    // const saveUser = (name, email) => {
-    //     const role = 'seller'
-    //     const user = { name, email, role };
-    //     fetch('https://tech-com-server.vercel.app/users', {
-    //         method: 'POST',
-    //         headers: {
-    //             'content-type': 'application/json'
-    //         },
-    //         body: JSON.stringify(user)
-    //     })
-    //         .then(res => res.json())
-    //         .then(data => {
-    //             setCreateUserEmail(email)
-    //         })
-    // }
-
-}
-
-
-
-
-
+      .then(result => {
+        const { name, photoUrl } = data;
+        const userInfo = {
+          displayName: name,
+        };
+        updateUserProfile(name, photoUrl)
+          .then(() => {
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: 'Your work has been saved',
+              showConfirmButton: false,
+              timer: 1500
+            });
+          })
+          .catch(err => console.log("update1 ", err));
+      })
+      .catch(error => {
+        console.log(error);
+        setSignUpError(error.message);
+      });
+  };
 
   return (
     <div className="bg-base-200 min-h-screen">
@@ -173,8 +115,8 @@ const SignUp = () => {
               />
             </div>
           </form>
-          {errors.general && (
-            <p className="text-red-500 mb-4">{errors.general.message}</p>
+          {signUpError && (
+            <p className="text-red-500 mb-4">{signUpError}</p>
           )}
 
           <p className="my-4 text-center">

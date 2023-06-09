@@ -8,7 +8,7 @@ import useTitle from '../../hooks/useTitle';
 import PopularClasses from './compo/PopularClasses';
 
 const Home = () => {
-  useTitle('Home..');
+  useTitle('Home');
   return (
     <div>
       <SliderComponent/>

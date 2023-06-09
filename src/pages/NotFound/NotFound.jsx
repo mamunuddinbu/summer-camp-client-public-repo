@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import useTitle from '../../hooks/useTitle';
 // import useTitle from '../../hooks/useTitle';
 
 const NotFound = () => {
-//   useTitle('404')
+  useTitle('404')
     return (
         <div className="container text-center"
     style={{

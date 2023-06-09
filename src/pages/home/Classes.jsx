@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import useTitle from '../../hooks/useTitle';
 
 const Classes = () => {
+  useTitle("Classes")
   const [classes, setClasses] = useState([]);
 
   useEffect(() => {

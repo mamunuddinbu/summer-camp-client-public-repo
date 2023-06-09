@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import useTitle from '../../hooks/useTitle';
 
 const Instructors = () => {
+  useTitle("Instructor")
   const [instructors, setInstructors] = useState([]);
 
   useEffect(() => {

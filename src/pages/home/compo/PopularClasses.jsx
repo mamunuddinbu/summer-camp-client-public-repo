@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import useTitle from "../../../hooks/useTitle";
 
 const PopularClasses = () => {
   const [classes, setClasses] = useState([]);
