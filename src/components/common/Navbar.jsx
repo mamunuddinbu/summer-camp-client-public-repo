@@ -43,12 +43,15 @@ console.log(takeImg);
           <>
             <li>
               <Link to="/dashboard">
-                <img
+                <p className="text-b">Dashboard</p>
+              </Link>
+            </li>
+            <li>
+            <img
                   src={user?.photoURL}
                   alt="Profile"
                   className="w-8 h-8 rounded-full"
                 />
-              </Link>
             </li>
             <li>{user?.email}</li>
             <li>

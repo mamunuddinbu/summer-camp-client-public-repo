@@ -11,6 +11,7 @@ import Dashboard from "./pages/dashboard/Dashboard";
 // import StudentDashboard from "./pages/dashboard/studentDashboard/StudentDashboard";
 // import InstructorDashboard from "./pages/dashboard/instructorDashboard/InstructorDashboard";
 import AdminDashboard from "./pages/dashboard/adminDashboard/AdminDashboard";
+import AddClassForm from "./pages/dashboard/instructorDashboard/AddClassForm";
 
 const router = createBrowserRouter([
   {
@@ -32,10 +33,13 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "dashboard",
+    path: "/dashboard",
     element: <Dashboard></Dashboard>,
     children: [
-    
+      {
+        path: "/dashboard/add-class",
+        element: <AddClassForm></AddClassForm>,
+      },
     ],
   },
   {

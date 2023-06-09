@@ -1,11 +1,13 @@
 import React, { useState } from "react";
+import { useContext } from "react";
+import { AuthContext } from "../../auth/AuthProvider";
 
 const AddClassForm = () => {
   const [className, setClassName] = useState("");
   const [classImage, setClassImage] = useState("");
   const [availableSeats, setAvailableSeats] = useState(0);
   const [price, setPrice] = useState(0);
-
+const {user} = useContext(AuthContext)
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -50,7 +52,7 @@ const AddClassForm = () => {
             Instructor Name:
             <input
               type="text"
-              value="John Doe"
+              value={user.displayName}
               readOnly
               className="border border-gray-300 rounded-md px-2 py-1 w-full bg-gray-100"
             />
@@ -61,7 +63,7 @@ const AddClassForm = () => {
             Instructor Email:
             <input
               type="email"
-              value="john@example.com"
+              value={user.email}
               readOnly
               className="border border-gray-300 rounded-md px-2 py-1 w-full bg-gray-100"
             />

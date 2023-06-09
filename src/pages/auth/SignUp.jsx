@@ -37,7 +37,7 @@ const SignUp = () => {
             saveUser(data.name, data.email, data.photoUrl);
             reset();
           })
-          .catch((err) => console.log("update1 ", err));
+          .catch((err) => console.log(err));
       })
       .catch((error) => {
         console.log(error);

@@ -1,5 +1,4 @@
 import React from "react";
-import { Route,  NavLink } from "react-router-dom";
 import MySelectedClasses from "./MySelectedClasses";
 import MyEnrolledClasses from "./MyEnrolledClasses";
 import PaymentHistory from "./PaymentHistory";
