@@ -22,11 +22,11 @@ const PaymentHistory = () => {
 
   return (
     <div className="bg-orange-200 m-3">
-      <h2 className="bg-green-300 text-3xl ">Payment History</h2>
+      <h2 className="bg-green-300 text-3xl p-3 ">Payment History</h2>
       {paymentHistory.length === 0 ? (
-        <p>No payment history available.</p>
+        <p className="p-3">No payment history available.</p>
       ) : (
-        <ul>
+        <ul className="p-3">
           {paymentHistory.map((payment) => (
             <li key={payment.id}>
               <p>Payment ID: {payment.id}</p>

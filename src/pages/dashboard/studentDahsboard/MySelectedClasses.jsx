@@ -13,7 +13,7 @@ const MySelectedClasses = () => {
     <div className="bg-yellow-50 m-3">
       <h2 className="bg-green-300 text-3xl p-3">My Selected Classes</h2>
       {selectedClasses.length === 0 ? (
-        <p>No classes selected.</p>
+        <p className="p-3">No classes selected.</p>
       ) : (
         <ul>
           {selectedClasses.map((classItem) => (

@@ -7,7 +7,7 @@ const MyEnrolledClasses = () => {
     <div className="bg-yellow-50 m-3">
       <h2 className="bg-green-300 text-3xl p-3">My Enrolled Classes</h2>
       {enrolledClasses.length === 0 ? (
-        <p>No classes enrolled.</p>
+        <p className="p-3">No classes enrolled.</p>
       ) : (
         <ul>
           {enrolledClasses.map((classItem) => (
