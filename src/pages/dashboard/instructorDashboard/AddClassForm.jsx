@@ -1,30 +1,50 @@
 import React, { useState } from "react";
 import { useContext } from "react";
 import { AuthContext } from "../../auth/AuthProvider";
+import axios from "axios";
 
 const AddClassForm = () => {
   const [className, setClassName] = useState("");
   const [classImage, setClassImage] = useState("");
   const [availableSeats, setAvailableSeats] = useState(0);
   const [price, setPrice] = useState(0);
-const {user} = useContext(AuthContext)
-  const handleSubmit = (e) => {
+  const { user } = useContext(AuthContext);
+
+  const imgUpload=import.meta.env.VITE_Image_Upload_token;
+  console.log(imgUpload);
+  const img_hosting_url = `https://api.imgbb.com/1/upload?expiration=600&key=${imgUpload}`
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Perform class creation logic and database submission here
-    // using the form input values
+    // Create a new class object using the form input values
+    const newClass = {
+      className,
+      classImage,
+      availableSeats,
+      price,
+      instructorName: user.displayName,
+      instructorEmail: user.email,
+    };
 
-    // Clear the form fields after submission
-    setClassName("");
-    setClassImage("");
-    setAvailableSeats(0);
-    setPrice(0);
+    try {
+      // Make an HTTP POST request to your backend server
+      await axios.post("http://localhost:5000/classes", newClass);
+
+      // Clear the form fields after successful submission
+      setClassName("");
+      setClassImage("");
+      setAvailableSeats(0);
+      setPrice(0);
+    } catch (error) {
+      // Handle error cases
+      console.error("Error adding class:", error);
+    }
   };
-
   return (
-    <div className="container mx-auto p-4">
-      <h2 className="text-xl font-bold mb-4">Add a Class</h2>
+    <div className="container mx-auto p-4 bg-green-200 flex  justify-center ">
       <form onSubmit={handleSubmit} className="max-w-sm">
+      <h2 className="text-xl font-bold mb-4">Add a Class</h2> 
         <div className="mb-4">
           <label className="block mb-2">
             Class Name:

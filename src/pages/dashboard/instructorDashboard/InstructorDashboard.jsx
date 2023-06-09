@@ -5,8 +5,11 @@ const InstructorDashboard = () => {
   return (
     <div>
       <h1 className='text-4xl text-center p-3'>Instructor Dashboard</h1>
-      <AddClassForm></AddClassForm>
-      <MyClasses></MyClasses>    
+      <div>
+        <AddClassForm></AddClassForm>
+      <MyClasses></MyClasses>
+      </div>
+          
       </div>
   );
 };
