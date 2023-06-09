@@ -3,7 +3,6 @@ import { useContext, useState } from "react";
 import { AuthContext } from "./AuthProvider";
 import useTitle from "../../hooks/useTitle";
 import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 
 const SignUp = () => {
@@ -57,13 +56,12 @@ const SignUp = () => {
     setSignUpError('');
     createUser(data.email, data.password)
         .then(result => {
-            toast('User Created Successfully.')
             const userInfo = {
                 displayName: data.name,
             }
-            updateUserProfile(data.name,data.photoURL)
+            updateUserProfile(data.name,data.photoUrl)
                 .then(() => {
-                  console.log(data.photoURL, data.name);
+                  console.log(data.photoUrl, data.name);
                     console.log("lolololo" );
                     Swal.fire({
                       position: 'top-end',
