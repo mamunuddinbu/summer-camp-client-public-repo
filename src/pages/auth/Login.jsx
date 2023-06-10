@@ -4,6 +4,7 @@ import { AuthContext } from "./AuthProvider";
 import useTitle from "../../hooks/useTitle";
 import { GoogleAuthProvider } from "firebase/auth";
 import Swal from "sweetalert2";
+import useToken from "../../hooks/useToken";
 
 const Login = () => {
   useTitle('Login')
@@ -12,6 +13,13 @@ const Login = () => {
   const navigate = useNavigate();
   const from = location.state?.from?.pathname || '/';
   const [error, setError] = useState('');
+  const [loginEmail, setLoginEmail] =useState('')
+  const [token] = useToken(loginEmail);
+
+ if(token){
+  navigate(from, { replace: true });
+
+ }
 
   const handleLogin = (event) => {
     event.preventDefault();
@@ -23,6 +31,7 @@ const Login = () => {
       .then((result) => {
         const user = result.user;
         console.log(user);
+        setLoginEmail(user.email)
         Swal.fire({
             position: 'top-end',
             icon: 'success',
@@ -30,7 +39,7 @@ const Login = () => {
             showConfirmButton: false,
             timer: 1500
           })
-        navigate(from, { replace: true });
+        // navigate(from, { replace: true });
       })
       .catch((error) => {
         console.error(error);

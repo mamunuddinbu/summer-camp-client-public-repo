@@ -4,6 +4,7 @@ import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWith
 import app from '../../firebase/firebase.config';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import axios from 'axios';
 
 export const AuthContext = createContext(null);
 
@@ -46,6 +47,21 @@ const AuthProvider = ({children}) => {
         const unsubscribe = onAuthStateChanged(auth, loggedUser => {
             console.log('logged in user inside auth state observer', loggedUser)
             setUser(loggedUser);
+
+
+            //====================================
+            // if(loggedUser){
+            //     axios.post('https://bistro-boss-server-fawn.vercel.app/jwt', {email: loggedUser.email})
+            //     .then(data =>{
+            //         // console.log(data.data.token)
+            //         localStorage.setItem('access-token', data.data.token)
+            //         setLoading(false);
+            //     })
+            // }
+            // else{
+            //     localStorage.removeItem('access-token')
+            // }
+            //====================================
             setLoading(false);
         })
 

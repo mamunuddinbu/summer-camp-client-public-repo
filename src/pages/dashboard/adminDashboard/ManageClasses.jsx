@@ -43,10 +43,10 @@ const ManageClasses = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-4 bg-red-200 my-10">
       <h2 className="text-xl font-bold mb-4">Manage Classes</h2>
       {classes.length === 0 ? (
-        <p>No classes found.</p>
+        <p className="bg-red-500">No classes found.</p>
       ) : (
         <table className="w-full">
           <thead>
@@ -79,7 +79,7 @@ const ManageClasses = () => {
                 <td className="px-4 py-2">{classItem.status}</td>
                 <td className="px-4 py-2">
                   {classItem.status === "Pending" && (
-                    <>
+                    <div className="py-8 ">
                       <button
                         className="bg-green-500 text-white px-4 py-2 rounded-md mr-2"
                         onClick={() => approveClass(classItem.id)}
@@ -92,7 +92,7 @@ const ManageClasses = () => {
                       >
                         Deny
                       </button>
-                    </>
+                    </div>
                   )}
                   <button
                     className="bg-blue-500 text-white px-4 py-2 rounded-md ml-2"

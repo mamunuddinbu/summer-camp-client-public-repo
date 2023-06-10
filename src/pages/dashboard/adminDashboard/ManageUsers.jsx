@@ -34,7 +34,7 @@ const ManageUsers = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-4 bg-slate-200">
       <h2 className="text-xl font-bold mb-4">Manage Users</h2>
       {users.length === 0 ? (
         <p>No users found.</p>
