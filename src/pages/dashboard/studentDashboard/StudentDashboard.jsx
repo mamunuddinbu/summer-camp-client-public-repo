@@ -2,6 +2,7 @@ import React from "react";
 import MySelectedClasses from "./MySelectedClasses";
 import MyEnrolledClasses from "./MyEnrolledClasses";
 import PaymentHistory from "./PaymentHistory";
+import Payment from "./Payment";
 
 const StudentDashboard = () => {
   return (

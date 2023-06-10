@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import {Link} from "react-router-dom";
 
 const MySelectedClasses = () => {
   const [selectedClasses, setSelectedClasses] = useState([]);
@@ -36,8 +37,14 @@ const MySelectedClasses = () => {
               </p>
               <p>Class Description: {classItem.description}</p>
               <div>
-                <button className="px-4 w-20 py-2 m-5 bg-blue-500 text-white rounded-lg"> Pay </button>
-                <button className="px-4 w-20  py-2 m-5 bg-red-600 text-white rounded-lg"> Delete </button>
+                <Link to='payment'>
+                  <button className="px-4 w-20 py-2 m-5 bg-blue-500 text-white rounded-lg">
+                    Pay
+                  </button>
+                </Link>
+                <button className="px-4 w-20  py-2 m-5 bg-red-600 text-white rounded-lg">
+                  Delete
+                </button>
               </div>
             </li>
           ))}

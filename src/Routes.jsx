@@ -12,6 +12,8 @@ import Dashboard from "./pages/dashboard/Dashboard";
 // import InstructorDashboard from "./pages/dashboard/instructorDashboard/InstructorDashboard";
 import AdminDashboard from "./pages/dashboard/adminDashboard/AdminDashboard";
 import AddClassForm from "./pages/dashboard/instructorDashboard/AddClassForm";
+import Payment from "./pages/dashboard/studentDashboard/Payment";
+import DashboardLayout from "./layout/DashboardLayout";
 
 const router = createBrowserRouter([
   {
@@ -34,13 +36,23 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
+    element: (
+      <PrivateRoute>
+        <DashboardLayout></DashboardLayout>
+      </PrivateRoute>
+    ),
     children: [
-      {
-        path: "/dashboard/add-class",
-        element: <AddClassForm></AddClassForm>,
-      },
+      { path: "/dashboard", element: <Dashboard></Dashboard> },
+      { path: "/dashboard/payment", element: <Payment></Payment> },
     ],
+  },
+  {
+    path: "/payment",
+    element: (
+      <PrivateRoute>
+        <Payment></Payment>
+      </PrivateRoute>
+    ),
   },
   {
     path: "*",

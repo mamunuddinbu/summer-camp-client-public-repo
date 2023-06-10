@@ -30,6 +30,11 @@ console.log(takeImg);
           </Link>
         </li>
         <li>
+          <Link to="/payment" className="hover:text-gray-300">
+            payment
+          </Link>
+        </li>
+        <li>
           <Link to="/instructors" className="hover:text-gray-300">
             Instructors
           </Link>

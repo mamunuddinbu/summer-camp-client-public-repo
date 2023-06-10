@@ -8,7 +8,7 @@ import InstructorDashboard from "./instructorDashboard/InstructorDashboard";
 import useStudent from "../../hooks/useStudent";
 import { Link } from "react-router-dom";
 import logo from '../../assets/logo.png'
-import StudentDashboard from "./studentDahsboard/StudentDashboard";
+import StudentDashboard from "./studentDashboard/StudentDashboard";
 const Dashboard = () => {
   const { user } = useContext(AuthContext);
   const [isAdmin] = useAdmin(user?.email);
