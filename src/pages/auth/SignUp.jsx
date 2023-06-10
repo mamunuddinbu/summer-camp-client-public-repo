@@ -28,7 +28,7 @@ const SignUp = () => {
         updateUserProfile(name, photoUrl)
           .then(() => {
             Swal.fire({
-              position: "top-end",
+              position: "center",
               icon: "success",
               title: "User has created",
               showConfirmButton: false,

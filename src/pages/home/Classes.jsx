@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import useTitle from '../../hooks/useTitle';
+import { useContext } from 'react';
+import { AuthContext } from '../auth/AuthProvider';
 
 const Classes = () => {
+  const {user} = useContext(AuthContext);
+  const email = user?.email;
   useTitle("Classes")
   const [classes, setClasses] = useState([]);
+  const [classSelected, setClassSelected] = useState();
 
   useEffect(() => {
     const fetchClasses = async () => {
@@ -18,6 +23,19 @@ const Classes = () => {
 
     fetchClasses();
   }, []);
+
+  const selectedClassesHandler = async (selectedClass) => {
+    setClassSelected(selectedClass);
+
+    try {
+      await axios.post('http://localhost:5000/selectedClasses', {...selectedClass, email});
+      console.log('Selected class sent to the server');
+    } catch (error) {
+      console.error('Error sending selected class to the server:', error);
+    }
+  };
+
+  console.log(classSelected);
 
   return (
     <div className='grid grid-cols-3 gap-3 mt-4'>
@@ -33,7 +51,7 @@ const Classes = () => {
             {classItem.availableSeats === 0 ? (
               <p>Class is full</p>
             ) : (
-              <button disabled={false} className="btn btn-primary">
+              <button onClick={() => selectedClassesHandler(classItem)} disabled={false} className="btn btn-primary">
                 Select
               </button>
             )}

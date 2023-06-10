@@ -8,7 +8,7 @@ const StudentDashboard = () => {
     <div>
       <h1 className="bg-green-400 p-10 text-center text-5xl">Student Dashboard</h1>
     
-      <div className="grid grid-cols-3">
+      <div className="">
         <div className="bg-yellow-50, m-3"></div>
         <div className="bg-yellow-50, m-3"></div>
         <div className="bg-yellow-50, m-3"></div>

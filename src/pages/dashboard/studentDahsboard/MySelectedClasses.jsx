@@ -1,13 +1,19 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 const MySelectedClasses = () => {
   const [selectedClasses, setSelectedClasses] = useState([]);
 
-  const handleDelete = (classId) => {
-    setSelectedClasses((prevClasses) =>
-      prevClasses.filter((classItem) => classItem.id !== classId)
-    );
-  };
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/selectedClasses")
+      .then((response) => {
+        setSelectedClasses(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching selected classes:", error);
+      });
+  }, []);
 
   return (
     <div className="bg-yellow-50 m-3">
@@ -15,15 +21,24 @@ const MySelectedClasses = () => {
       {selectedClasses.length === 0 ? (
         <p className="p-3">No classes selected.</p>
       ) : (
-        <ul>
+        <ul className="space-y-4">
           {selectedClasses.map((classItem) => (
-            <li key={classItem.id}>
-              <p>Class Name: {classItem.name}</p>
+            <li key={classItem.id} className="p-4 border rounded-lg">
+              <p className="text-xl font-semibold">
+                Class Name: {classItem.name}
+              </p>
+              <p className="text-xl font-semibold">
+                Class Name: {classItem.instructor}
+              </p>
+              <p className="text-xl font-semibold">Price: ${classItem.price}</p>
+              <p className="text-xl font-semibold">
+                Enrolled Student: {classItem.enrolledStudents}
+              </p>
               <p>Class Description: {classItem.description}</p>
-              <button onClick={() => handleDelete(classItem.id)}>
-                Delete
-              </button>
-              <button>Pay</button>
+              <div>
+                <button className="px-4 w-20 py-2 m-5 bg-blue-500 text-white rounded-lg"> Pay </button>
+                <button className="px-4 w-20  py-2 m-5 bg-red-600 text-white rounded-lg"> Delete </button>
+              </div>
             </li>
           ))}
         </ul>

@@ -8,7 +8,7 @@ import useToken from "../../hooks/useToken";
 
 const Login = () => {
   useTitle('Login')
-  const { signIn, googleLoginProvider } = useContext(AuthContext);
+  const { signIn, user, googleLoginProvider } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
   const from = location.state?.from?.pathname || '/';
@@ -54,6 +54,41 @@ const Login = () => {
     googleLoginProvider(googleProvider)
       .then((result) => {
         const user = result.user;
+        const {displayName, photoURL, email} = user;
+        console.log(user);
+  
+        const createdUser = {
+          name: displayName,
+          email:email,
+          role: "student",
+          photo: photoURL,
+        };
+  
+        // Add the user to MongoDB
+        fetch("http://localhost:5000/users", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(createdUser),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            // Fetch the updated user list from MongoDB
+            fetch("http://localhost:5000/users")
+              .then((res) => res.json())
+              .then((users) => {
+                console.log(users);
+              })
+              .catch((error) => {
+                console.error(error);
+              });
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+  
         console.log(user);
         navigate(from, { replace: true });
       })
@@ -62,6 +97,7 @@ const Login = () => {
         setError(error);
       });
   };
+  
   ///////////////////////////////////////
 
   return (
