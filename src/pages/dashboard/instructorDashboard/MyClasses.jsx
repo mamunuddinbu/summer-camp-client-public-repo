@@ -1,65 +1,56 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../auth/AuthProvider";
+import axios from "axios";
 
 const MyClasses = () => {
-  const [classes, setClasses] = useState([
-    {
-      id: 1,
-      name: "Yoga Class",
-      status: "Pending",
-      totalEnrolledStudents: 0,
-      feedback: "",
-    },
-    {
-      id: 2,
-      name: "Pilates Class",
-      status: "Approved",
-      totalEnrolledStudents: 5,
-      feedback: "",
-    },
-    {
-      id: 3,
-      name: "Zumba Class",
-      status: "Denied",
-      totalEnrolledStudents: 0,
-      feedback: "Not enough space available.",
-    },
-  ]);
+  const { user } = useContext(AuthContext);
+  const [classes, setClasses] = useState([]);
+
+  useEffect(() => {
+    fetchClasses();
+  }, []);
+
+  const fetchClasses = async () => {
+   
+      const response = await axios.get(`/myclasses?email=${user.email}`);
+      setClasses(response.data);
+    
+  };
 
   return (
-    <div className="container mx-auto p-4">
-      <h2 className="text-xl font-bold mb-4">My Classes</h2>
-      {classes.length === 0 ? (
-        <p>No classes added.</p>
-      ) : (
-        <table className="w-full">
+    <div>
+      <h2>My Classes</h2>
+      {classes.length > 0 ? (
+        <table>
           <thead>
             <tr>
-              <th className="px-4 py-2">Class Name</th>
-              <th className="px-4 py-2">Status</th>
-              <th className="px-4 py-2">Total Enrolled Students</th>
-              <th className="px-4 py-2">Feedback</th>
-              <th className="px-4 py-2">Update</th>
+              <th>Class Name</th>
+              <th>Status</th>
+              <th>Total Enrolled Students</th>
+              <th>Feedback</th>
+              <th>Update</th>
             </tr>
           </thead>
           <tbody>
-            {classes.map((classItem) => (
-              <tr key={classItem.id}>
-                <td className="px-4 py-2">{classItem.name}</td>
-                <td className="px-4 py-2">{classItem.status}</td>
-                <td className="px-4 py-2">{classItem.totalEnrolledStudents}</td>
-                <td className="px-4 py-2">{classItem.feedback}</td>
-                <td className="px-4 py-2">
-                  <button className="bg-blue-500 text-white px-4 py-2 rounded-md">
-                    Update
-                  </button>
+            {classes.map((cls) => (
+              <tr key={cls._id}>
+                <td>{cls.className}</td>
+                <td>{cls.status}</td>
+                <td>{cls.totalEnrolledStudents}</td>
+                <td>{cls.status === "denied" ? cls.feedback : "-"}</td>
+                <td>
+                  <button>Edit</button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+      ) : (
+        <p>No classes found.</p>
       )}
     </div>
   );
 };
 
 export default MyClasses;
+

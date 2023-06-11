@@ -48,7 +48,7 @@ const Classes = () => {
       {classes.map((classItem) => (
         <div key={classItem._id} className={`card ${classItem.availableSeats === 0 ? 'bg-red-500 p-3' : 'bg-green-200 p-3'}`}>
           {/* <img src={classItem.image} alt={classItem.name} className="rounded-xl" /> */}
-          <img src="https://media.gettyimages.com/id/1128725181/photo/senior-teacher-talking-to-large-group-of-college-students-in-amphitheater.jpg?s=1024x1024&w=gi&k=20&c=X7c7R5RB8CIK84JIeaMC_SuAznEHs2tjiCNamrpc7Ts=" alt="" />
+          <img src={classItem.image} alt="" />
           <div className="card-body">
             <h2 className="card-title">{classItem.name}</h2>
             <p>Instructor: {classItem.instructor}</p>

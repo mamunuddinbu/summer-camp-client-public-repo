@@ -1,50 +1,74 @@
-import React, { useState } from "react";
-import { useContext } from "react";
+import React, { useState, useContext } from "react";
 import { AuthContext } from "../../auth/AuthProvider";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const AddClassForm = () => {
   const [className, setClassName] = useState("");
-  const [classImage, setClassImage] = useState("");
+  const [classImage, setClassImage] = useState(null);
   const [availableSeats, setAvailableSeats] = useState(0);
   const [price, setPrice] = useState(0);
   const { user } = useContext(AuthContext);
 
-  const imgUpload=import.meta.env.VITE_Image_Upload_token;
-  console.log(imgUpload);
-  const img_hosting_url = `https://api.imgbb.com/1/upload?expiration=600&key=${imgUpload}`
+  const imgUpload = import.meta.env.VITE_Image_Upload_token;
+  const img_hosting_url = `https://api.imgbb.com/1/upload?key=${imgUpload}`;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Create a new class object using the form input values
-    const newClass = {
-      className,
-      classImage,
-      availableSeats,
-      price,
-      instructorName: user.displayName,
-      instructorEmail: user.email,
-    };
+    const formData = new FormData();
+    formData.append("image", classImage);
 
-    try {
-      // Make an HTTP POST request to your backend server
-      await axios.post("http://localhost:5000/classes", newClass);
+    
+      const response = await fetch(img_hosting_url, {
+        method: "POST",
+        body: formData,
+      });
 
-      // Clear the form fields after successful submission
-      setClassName("");
-      setClassImage("");
-      setAvailableSeats(0);
-      setPrice(0);
-    } catch (error) {
-      // Handle error cases
-      console.error("Error adding class:", error);
-    }
+      if (response.ok) {
+        const imgResponse = await response.json();
+
+        if (imgResponse.success) {
+          const imgURL = imgResponse.data.display_url;
+
+          // Create a new class object using the form input values
+          const newClass = {
+            className,
+            classImage: imgURL,
+            availableSeats,
+            price,
+            instructorName: user.displayName,
+            instructorEmail: user.email,
+          };
+
+          // Make an HTTP POST request to your backend server
+          await axios.post("http://localhost:5000/classes", newClass);
+
+          // Clear the form fields after successful submission
+          setClassName("");
+          setClassImage(null);
+          setAvailableSeats(0);
+          setPrice(0);
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Class added successfully',
+            showConfirmButton: false,
+            timer: 1500
+          })
+        } else {
+          console.error("Image upload failed:", imgResponse.error);
+        }
+      } else {
+        console.error("Image upload failed. Response:", response);
+      }
+    
   };
+
   return (
-    <div className="container mx-auto p-4 bg-green-200 flex  justify-center ">
+    <div className="container mx-auto p-4 bg-green-200 flex justify-center">
       <form onSubmit={handleSubmit} className="max-w-sm">
-      <h2 className="text-xl font-bold mb-4">Add a Class</h2> 
+        <h2 className="text-xl font-bold mb-4">Add a Class</h2>
         <div className="mb-4">
           <label className="block mb-2">
             Class Name:
@@ -61,8 +85,7 @@ const AddClassForm = () => {
             Class Image:
             <input
               type="file"
-              value={classImage}
-              onChange={(e) => setClassImage(e.target.value)}
+              onChange={(e) => setClassImage(e.target.files[0])}
               className="border border-gray-300 rounded-md px-2 py-1 w-full"
             />
           </label>

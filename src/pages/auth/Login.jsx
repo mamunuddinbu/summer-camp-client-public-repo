@@ -33,7 +33,7 @@ const Login = () => {
         console.log(user);
         setLoginEmail(user.email)
         Swal.fire({
-            position: 'top-end',
+            position: 'center',
             icon: 'success',
             title: 'Logged In Successfully',
             showConfirmButton: false,
