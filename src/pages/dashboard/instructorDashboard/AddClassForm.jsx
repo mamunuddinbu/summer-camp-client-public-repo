@@ -60,7 +60,7 @@ const AddClassForm = () => {
           <label className="block mb-2">
             Class Image:
             <input
-              type="text"
+              type="file"
               value={classImage}
               onChange={(e) => setClassImage(e.target.value)}
               className="border border-gray-300 rounded-md px-2 py-1 w-full"

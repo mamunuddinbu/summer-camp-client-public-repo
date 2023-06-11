@@ -20,7 +20,7 @@ console.log(takeImg);
     <nav className="flex items-center justify-between p-4 bg-gray-800 text-white">
       <div className="flex items-center">
         <Link to="/" className="text-xl font-bold">
-          <img className="h-[120px]" src={logo} alt="" />
+          <img className="h-[120px]" src={logo} alt="" /> <p className="text-3xl">LingoJoe</p> <p>Learn foreign language with us</p>
         </Link>
       </div>
       <ul className="flex items-center space-x-4">

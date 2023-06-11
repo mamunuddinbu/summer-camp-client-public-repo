@@ -10,7 +10,7 @@ const ManageClasses = () => {
         const response = await axios.get("http://localhost:5000/classes");
         setClasses(response.data);
       } catch (error) {
-        console.error("Error fetching classes:", error);
+        console.error("Failed to fetch classes:", error);
       }
     };
 
@@ -20,18 +20,26 @@ const ManageClasses = () => {
   const handleApprove = async (classId) => {
     try {
       await axios.put(`http://localhost:5000/approveClass/${classId}`);
-      // Update the class status in the state or refetch the classes from the server
+      setClasses((prevClasses) =>
+        prevClasses.map((cls) =>
+          cls._id === classId ? { ...cls, status: "approved" } : cls
+        )
+      );
     } catch (error) {
-      console.error("Error approving class:", error);
+      console.error("Failed to approve class:", error);
     }
   };
 
   const handleDeny = async (classId) => {
     try {
       await axios.put(`http://localhost:5000/denyClass/${classId}`);
-      // Update the class status in the state or refetch the classes from the server
+      setClasses((prevClasses) =>
+        prevClasses.map((cls) =>
+          cls._id === classId ? { ...cls, status: "denied" } : cls
+        )
+      );
     } catch (error) {
-      console.error("Error denying class:", error);
+      console.error("Failed to deny class:", error);
     }
   };
 
@@ -41,7 +49,9 @@ const ManageClasses = () => {
 
   return (
     <div>
-      <h1 className="text-center text-5xl p-5 m-8"><u>Manage Classes</u></h1>
+      <h1 className="text-center text-5xl p-5 m-8">
+        <u>Manage Classes</u>
+      </h1>
       {classes.map((cls) => (
         <div key={cls._id} className="bg-green-200 m-4 p-4">
           <div className="flex">

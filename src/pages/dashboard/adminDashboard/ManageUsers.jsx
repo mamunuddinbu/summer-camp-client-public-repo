@@ -1,109 +1,57 @@
-// import React from "react";
-// import { useQuery, useMutation } from "react-query";
-// import axios from "axios";
-
-// const ManageUsers = () => {
-//   const fetchUsers = async () => {
-//     const { data } = await axios.get("http://localhost:5000/all-user");
-//     console.log('sdfsafd');
-//     return data;
-//   };
-
-//   const { data: users, isLoading, isError } = useQuery("users", fetchUsers);
-
-//   const updateUserRole = async (userId, newRole) => {
-//     await axios.patch(`http://localhost:5000/update-role/${userId}`, { role: newRole });
-//   };
-
-//   const makeInstructor = useMutation((userId) => updateUserRole(userId, "instructor"));
-//   const makeAdmin = useMutation((userId) => updateUserRole(userId, "admin"));
-
-//   if (isLoading) {
-//     return <p>Loading users...</p>;
-//   }
-
-//   if (isError) {
-//     return <p>Error fetching users</p>;
-//   }
-
-//   return (
-//     <div>
-//       <h2>Manage Users</h2>
-//       {users.map((user) => (
-//         <div key={user._id}>
-//           <p>Name: {user.name}</p>
-//           <p>Email: {user.email}</p>
-//           <p>Role: {user.role}</p>
-//           <div>
-//             <button
-//               onClick={() => makeInstructor.mutate(user._id)}
-//               disabled={user.role === "instructor" || user.role === "admin"}
-//             >
-//               Make Instructor
-//             </button>
-//             <button
-//               onClick={() => makeAdmin.mutate(user._id)}
-//               disabled={user.role === "admin"}
-//             >
-//               Make Admin
-//             </button>
-//           </div>
-//         </div>
-//       ))}
-//     </div>
-//   );
-// };
-
-// export default ManageUsers;
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 
 const ManageUsers = () => {
+  const refresh = () => window.location.reload(true);
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get("http://localhost:5000/all-user");
-        setUsers(response.data);
-      } catch (error) {
-        console.error("Error fetching users:", error);
-      }
-    };
-
     fetchUsers();
   }, []);
 
+  const fetchUsers = async () => {
+    const response = await axios.get("http://localhost:5000/all-user");
+    setUsers(response.data);
+  };
+
   const handleMakeAdmin = async (userId) => {
-    try {
-      console.log("inside admin");
-      await axios.put(`http://localhost:5000/makeAdmin/${userId}`);
-      setUsers((prevUsers) =>
-        prevUsers.map((user) =>
-          user._id === userId ? { ...user, role: "admin" } : user
-        )
-      );
-    } catch (error) {
-      console.error("Error making user admin:", error);
-    }
+    await axios.put(`http://localhost:5000/makeAdmin/${userId}`);
+    setUsers((prevUsers) =>
+      prevUsers.map((user) =>
+        user._id === userId ? { ...user, role: "admin" } : user
+      )
+    );
+    fetchUsers(); // Refetch the updated user data
+
+    setUsers((prevUsers)=> prevUsers.filter((user)=>user._id !==userId))
+    
+
+    // const handleDelete = async (id) => {
+    //   const confirmed = window.confirm('Are you sure you want to delete this toy?');
+    //   if (!confirmed) return;
+  
+    //   const response = await fetch(`https://toy-server-rho.vercel.app/toys/${id}`, {
+    //     method: 'DELETE',
+    //   });
+  
+    //   if (response.ok) {
+    //     setToys((prevToys) => prevToys.filter((toy) => toy._id !== id));
+    //     alert('Toy deleted successfully');
+    //   }
+    // };
+    
   };
 
   const handleMakeInstructor = async (userId) => {
-    console.log("inside instructor");
-    try {
-      await axios.put(`http://localhost:5000/makeInstructor/${userId}`);
-      setUsers((prevUsers) =>
-        prevUsers.map((user) =>
-          user._id === userId ? { ...user, role: "instructor" } : user
-        )
-      );
-    } catch (error) {
-      console.error("Error making user instructor:", error);
-    }
+    await axios.put(`http://localhost:5000/makeInstructor/${userId}`);
+    setUsers((prevUsers) =>
+      prevUsers.map((user) =>
+        user._id === userId ? { ...user, role: "instructor" } : user
+      )
+    );
+    fetchUsers(); // Refetch the updated user data
   };
 
-  console.log(users);
-  
   return (
     <div>
       {users.map((user, index) => (
@@ -136,4 +84,3 @@ const ManageUsers = () => {
 };
 
 export default ManageUsers;
-

@@ -17,8 +17,8 @@ const Dashboard = () => {
 
   return (
     <div>
-      <Link to="/">
-        <img src={logo} alt="" className="h-20" />
+      <Link to="/" className="flex items-center"> 
+        <img src={logo} alt="" className="h-20" /><button className="btn bg-slate-500">Go Back</button>
       </Link>
       {isAdmin && <AdminDashboard></AdminDashboard>}
       {isInstructor && <InstructorDashboard></InstructorDashboard>}
