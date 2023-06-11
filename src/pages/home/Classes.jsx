@@ -3,6 +3,8 @@ import axios from 'axios';
 import useTitle from '../../hooks/useTitle';
 import { useContext } from 'react';
 import { AuthContext } from '../auth/AuthProvider';
+import useAdmin from '../../hooks/useAdmin';
+import useInstructor from '../../hooks/useInstructor';
 
 const Classes = () => {
   const {user} = useContext(AuthContext);
@@ -10,6 +12,9 @@ const Classes = () => {
   useTitle("Classes")
   const [classes, setClasses] = useState([]);
   const [classSelected, setClassSelected] = useState();
+
+  const [isAdmin] = useAdmin(user?.email);
+  const [isInstructor] = useInstructor(user?.email);
 
   useEffect(() => {
     const fetchClasses = async () => {
@@ -28,6 +33,7 @@ const Classes = () => {
     setClassSelected(selectedClass);
 
     try {
+      delete selectedClass._id
       await axios.post('http://localhost:5000/selectedClasses', {...selectedClass, email});
       console.log('Selected class sent to the server');
     } catch (error) {
@@ -40,7 +46,7 @@ const Classes = () => {
   return (
     <div className='grid grid-cols-3 gap-3 mt-4'>
       {classes.map((classItem) => (
-        <div key={classItem.id} className={`card ${classItem.availableSeats === 0 ? 'bg-red-500 p-3' : 'bg-green-200 p-3'}`}>
+        <div key={classItem._id} className={`card ${classItem.availableSeats === 0 ? 'bg-red-500 p-3' : 'bg-green-200 p-3'}`}>
           {/* <img src={classItem.image} alt={classItem.name} className="rounded-xl" /> */}
           <img src="https://media.gettyimages.com/id/1128725181/photo/senior-teacher-talking-to-large-group-of-college-students-in-amphitheater.jpg?s=1024x1024&w=gi&k=20&c=X7c7R5RB8CIK84JIeaMC_SuAznEHs2tjiCNamrpc7Ts=" alt="" />
           <div className="card-body">
@@ -51,7 +57,7 @@ const Classes = () => {
             {classItem.availableSeats === 0 ? (
               <p>Class is full</p>
             ) : (
-              <button onClick={() => selectedClassesHandler(classItem)} disabled={false} className="btn btn-primary">
+              <button onClick={() => selectedClassesHandler(classItem)} disabled={isAdmin || isInstructor} className="btn btn-primary">
                 Select
               </button>
             )}

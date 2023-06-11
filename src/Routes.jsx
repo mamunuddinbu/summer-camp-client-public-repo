@@ -12,8 +12,8 @@ import Dashboard from "./pages/dashboard/Dashboard";
 // import InstructorDashboard from "./pages/dashboard/instructorDashboard/InstructorDashboard";
 import AdminDashboard from "./pages/dashboard/adminDashboard/AdminDashboard";
 import AddClassForm from "./pages/dashboard/instructorDashboard/AddClassForm";
-import Payment from "./pages/dashboard/studentDashboard/Payment";
 import DashboardLayout from "./layout/DashboardLayout";
+import Payment from "./pages/dashboard/studentDashboard/payment/Payment";
 
 const router = createBrowserRouter([
   {

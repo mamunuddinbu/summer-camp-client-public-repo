@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const MySelectedClasses = () => {
   const [selectedClasses, setSelectedClasses] = useState([]);
@@ -16,18 +16,37 @@ const MySelectedClasses = () => {
       });
   }, []);
 
+  const handleDeleteClass = (classId) => {
+    console.log(classId);
+    fetch(`http://localhost:5000/deleteClass/${classId}`, {
+      method: "DELETE"
+    })
+      .then((res) => {
+        console.log(res);
+        setSelectedClasses((prevClasses) =>
+          prevClasses.filter((classItem) => classItem._id !== classId)
+        );
+      })
+      .catch((error) => {
+        console.error("Error deleting class:", error);
+      });
+  };
+  
+  
+  
   return (
-    <div className="bg-yellow-50 m-3">
+    <div className=" m-3">
       <h2 className="bg-green-300 text-3xl p-3">My Selected Classes</h2>
       {selectedClasses.length === 0 ? (
         <p className="p-3">No classes selected.</p>
       ) : (
         <ul className="space-y-4">
           {selectedClasses.map((classItem) => (
-            <li key={classItem.id} className="p-4 border rounded-lg">
+            <li key={classItem._id} className="p-4 border bg-green-100 rounded-lg">
               <p className="text-xl font-semibold">
                 Class Name: {classItem.name}
               </p>
+              <p>{classItem._id}</p>
               <p className="text-xl font-semibold">
                 Class Name: {classItem.instructor}
               </p>
@@ -42,7 +61,10 @@ const MySelectedClasses = () => {
                     Pay
                   </button>
                 </Link>
-                <button className="px-4 w-20  py-2 m-5 bg-red-600 text-white rounded-lg">
+                <button
+                  className="px-4 w-20 py-2 m-5 bg-red-600 text-white rounded-lg"
+                  onClick={() => handleDeleteClass(classItem._id)}
+                >
                   Delete
                 </button>
               </div>
