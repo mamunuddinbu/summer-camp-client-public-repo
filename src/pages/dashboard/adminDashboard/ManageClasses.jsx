@@ -1,113 +1,84 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const ManageClasses = () => {
-  const [classes, setClasses] = useState([
-    {
-      id: 1,
-      name: "Yoga Class",
-      image: "yoga.jpg",
-      instructorName: "John Doe",
-      instructorEmail: "john@example.com",
-      availableSeats: 10,
-      price: 20,
-      status: "Pending",
-    },
-    // Add more class objects here
-  ]);
+  const [classes, setClasses] = useState([]);
 
-  const approveClass = (classId) => {
-    setClasses((prevClasses) =>
-      prevClasses.map((classItem) => {
-        if (classItem.id === classId) {
-          return { ...classItem, status: "Approved" };
-        }
-        return classItem;
-      })
-    );
+  useEffect(() => {
+    const fetchClasses = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/classes");
+        setClasses(response.data);
+      } catch (error) {
+        console.error("Error fetching classes:", error);
+      }
+    };
+
+    fetchClasses();
+  }, []);
+
+  const handleApprove = async (classId) => {
+    try {
+      await axios.put(`http://localhost:5000/approveClass/${classId}`);
+      // Update the class status in the state or refetch the classes from the server
+    } catch (error) {
+      console.error("Error approving class:", error);
+    }
   };
 
-  const denyClass = (classId) => {
-    setClasses((prevClasses) =>
-      prevClasses.map((classItem) => {
-        if (classItem.id === classId) {
-          return { ...classItem, status: "Denied" };
-        }
-        return classItem;
-      })
-    );
+  const handleDeny = async (classId) => {
+    try {
+      await axios.put(`http://localhost:5000/denyClass/${classId}`);
+      // Update the class status in the state or refetch the classes from the server
+    } catch (error) {
+      console.error("Error denying class:", error);
+    }
   };
 
-  const sendFeedback = (classId, feedback) => {
-    // Send feedback to the instructor
-    console.log(`Sending feedback for class ${classId}: ${feedback}`);
+  const handleSendFeedback = (classId) => {
+    // Open the modal and handle sending feedback to the instructor
   };
 
   return (
-    <div className="container mx-auto p-4 bg-red-200 my-10">
-      <h2 className="text-xl font-bold mb-4">Manage Classes</h2>
-      {classes.length === 0 ? (
-        <p className="bg-red-500">No classes found.</p>
-      ) : (
-        <table className="w-full">
-          <thead>
-            <tr>
-              <th className="px-4 py-2">Class Image</th>
-              <th className="px-4 py-2">Class Name</th>
-              <th className="px-4 py-2">Instructor Name</th>
-              <th className="px-4 py-2">Instructor Email</th>
-              <th className="px-4 py-2">Available Seats</th>
-              <th className="px-4 py-2">Price</th>
-              <th className="px-4 py-2">Status</th>
-              <th className="px-4 py-2">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {classes.map((classItem) => (
-              <tr key={classItem.id}>
-                <td className="px-4 py-2">
-                  <img
-                    src={classItem.image}
-                    alt={classItem.name}
-                    className="w-16 h-16 object-cover"
-                  />
-                </td>
-                <td className="px-4 py-2">{classItem.name}</td>
-                <td className="px-4 py-2">{classItem.instructorName}</td>
-                <td className="px-4 py-2">{classItem.instructorEmail}</td>
-                <td className="px-4 py-2">{classItem.availableSeats}</td>
-                <td className="px-4 py-2">{classItem.price}</td>
-                <td className="px-4 py-2">{classItem.status}</td>
-                <td className="px-4 py-2">
-                  {classItem.status === "Pending" && (
-                    <div className="py-8 ">
-                      <button
-                        className="bg-green-500 text-white px-4 py-2 rounded-md mr-2"
-                        onClick={() => approveClass(classItem.id)}
-                      >
-                        Approve
-                      </button>
-                      <button
-                        className="bg-red-500 text-white px-4 py-2 rounded-md"
-                        onClick={() => denyClass(classItem.id)}
-                      >
-                        Deny
-                      </button>
-                    </div>
-                  )}
-                  <button
-                    className="bg-blue-500 text-white px-4 py-2 rounded-md ml-2"
-                    onClick={() => {
-                      // Open modal to send feedback
-                    }}
-                  >
-                    Send Feedback
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+    <div>
+      <h1 className="text-center text-5xl p-5 m-8"><u>Manage Classes</u></h1>
+      {classes.map((cls) => (
+        <div key={cls._id} className="bg-green-200 m-4 p-4">
+          <div className="flex">
+            <img src={cls.image} alt="Class Image" className="w-1/4" />
+            <div className="ml-4">
+              <p>Class Name: {cls.name}</p>
+              <p>Instructor Name: {cls.instructorName}</p>
+              <p>Instructor Email: {cls.instructorEmail}</p>
+              <p>Available Seats: {cls.availableSeats}</p>
+              <p>Price: {cls.price}</p>
+              <p>Status: {cls.status}</p>
+            </div>
+          </div>
+          <div className="flex mt-4">
+            <button
+              className="bg-green-700 p-4 m-4 text-white"
+              disabled={cls.status !== "pending"}
+              onClick={() => handleApprove(cls._id)}
+            >
+              Approve
+            </button>
+            <button
+              className="bg-red-700 p-4 m-4 text-white"
+              disabled={cls.status !== "pending"}
+              onClick={() => handleDeny(cls._id)}
+            >
+              Deny
+            </button>
+            <button
+              className="bg-blue-700 p-4 m-4 text-white"
+              onClick={() => handleSendFeedback(cls._id)}
+            >
+              Send Feedback
+            </button>
+          </div>
+        </div>
+      ))}
     </div>
   );
 };

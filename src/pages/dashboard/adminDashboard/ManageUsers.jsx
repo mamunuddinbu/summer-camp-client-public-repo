@@ -76,8 +76,8 @@ const ManageUsers = () => {
 
   const handleMakeAdmin = async (userId) => {
     try {
-      await axios.put(`http://localhost:5000/makeAdmin/${userId}`);
       console.log("inside admin");
+      await axios.put(`http://localhost:5000/makeAdmin/${userId}`);
       setUsers((prevUsers) =>
         prevUsers.map((user) =>
           user._id === userId ? { ...user, role: "admin" } : user

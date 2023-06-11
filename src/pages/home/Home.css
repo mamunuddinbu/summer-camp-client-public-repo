@@ -1,0 +1,19 @@
+/* Home.css */
+
+.home {
+    /* Styles for the Home component */
+    padding: 20px;
+  }
+  
+  .light {
+    /* Styles for light mode */
+    background-color: #f4f4f4;
+    color: #333;
+  }
+  
+  .dark {
+    /* Styles for dark mode */
+    background-color: #333;
+    color: #fff;
+  }
+  
