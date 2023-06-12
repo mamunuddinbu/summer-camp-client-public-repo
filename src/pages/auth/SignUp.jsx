@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import { AuthContext } from "./AuthProvider";
 import useTitle from "../../hooks/useTitle";
@@ -9,6 +9,9 @@ const SignUp = () => {
   useTitle("SignUp");
   const { createUser, updateUserProfile } = useContext(AuthContext);
   const [signUpError, setSignUpError] = useState("");
+  const location = useLocation();
+  const navigate = useNavigate();
+  const from = location.state?.from?.pathname || '/';
   const {
     register,
     handleSubmit,
@@ -52,6 +55,7 @@ const SignUp = () => {
             });
             saveUser(data.name, data.email, data.photoUrl);
             reset();
+            navigate(from, { replace: true });
           })
           .catch((err) => console.log(err));
       })
@@ -79,7 +83,9 @@ const SignUp = () => {
   };
 
   return (
-    <div className=" bg-base-200 min-h-screen max-w-sm m-7 card shadow-2xl">
+    <div className="flex justify-center">
+      
+    <div className=" bg-base-200 min-h-screen max-w-sm m-3 card shadow-2xl">
       <div className="card-body">
         <h1 className="text-3xl font-bold text-center">Sign Up</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -154,6 +160,7 @@ const SignUp = () => {
           </Link>
         </p>
       </div>
+    </div>
     </div>
   );
 };
