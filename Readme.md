@@ -20,6 +20,7 @@ Foreign Language Learning Hub is a web application that helps individuals learn 
 - HTTP Requests: Axios
 - UI Framework: Tailwind CSS
 - Deployment: Firebase
+- Tan Stack Query
 
 ## Live Site
 

@@ -57,7 +57,7 @@ const Classes = () => {
             {classItem.availableSeats === 0 ? (
               <p>Class is full</p>
             ) : (
-              <button onClick={() => selectedClassesHandler(classItem)} disabled={isAdmin || isInstructor} className="btn btn-primary">
+              <button onClick={() => selectedClassesHandler(classItem)} disabled={isAdmin || isInstructor} className="btn">
                 Select
               </button>
             )}

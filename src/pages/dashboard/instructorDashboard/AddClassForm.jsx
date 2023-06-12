@@ -39,9 +39,8 @@ const AddClassForm = () => {
             price,
             instructorName: user.displayName,
             instructorEmail: user.email,
-            enrolledStudent:0,
           };
-
+          console.log(newClass);
           // Make an HTTP POST request to your backend server
           await axios.post("http://localhost:5000/classes", newClass);
 
@@ -73,6 +72,7 @@ const AddClassForm = () => {
         <div className="mb-4">
           <label className="block mb-2">
             Class Name:
+
             <input
               type="text"
               value={className}

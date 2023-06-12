@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import useTitle from "../../../hooks/useTitle";
 import { useContext } from "react";
 import { AuthContext } from "../../auth/AuthProvider";
 import useAdmin from "../../../hooks/useAdmin";
