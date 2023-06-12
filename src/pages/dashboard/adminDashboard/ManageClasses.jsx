@@ -57,7 +57,7 @@ const ManageClasses = () => {
           <div className="flex">
             <img src={cls.image} alt="Class Image" className="w-1/4" />
             <div className="ml-4">
-              <p>Class Name: {cls.name}</p>
+              <p className="font-bold">Class Name: {cls.name}</p>
               <p>Instructor Name: {cls.instructorName}</p>
               <p>Instructor Email: {cls.instructorEmail}</p>
               <p>Available Seats: {cls.availableSeats}</p>
@@ -67,21 +67,21 @@ const ManageClasses = () => {
           </div>
           <div className="flex mt-4">
             <button
-              className="bg-green-700 p-4 m-4 text-white"
+              className="btn bg-green-700 p-4 m-4 text-white"
               disabled={cls.status !== "pending"}
               onClick={() => handleApprove(cls._id)}
             >
               Approve
             </button>
             <button
-              className="bg-red-700 p-4 m-4 text-white"
+              className="btn bg-red-700 p-4 m-4 text-white"
               disabled={cls.status !== "pending"}
               onClick={() => handleDeny(cls._id)}
             >
               Deny
             </button>
             <button
-              className="bg-blue-700 p-4 m-4 text-white"
+              className="btn bg-blue-700 p-4 m-4 text-white"
               onClick={() => handleSendFeedback(cls._id)}
             >
               Send Feedback
