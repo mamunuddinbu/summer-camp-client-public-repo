@@ -1,8 +1,44 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
+// eslint-disable-next-line react/prop-types
+const SendFeedbackModal = ({ classId, onClose }) => {
+  const [feedback, setFeedback] = useState("");
+
+  const handleFeedbackChange = (e) => {
+    setFeedback(e.target.value);
+  };
+
+  const handleSendFeedback = async () => {
+    try {
+      await axios.post("http://localhost:5000/classes/feedback", {
+        classId,
+        feedback,
+      });
+      onClose();
+      // Show success message or perform any other action
+    } catch (error) {
+      console.error("Failed to send feedback:", error);
+      // Show error message or perform any other action
+    }
+  };
+
+  return (
+    <div>
+      <textarea
+        value={feedback}
+        onChange={handleFeedbackChange}
+        placeholder="Enter your feedback"
+      />
+      <button onClick={handleSendFeedback}>Send Feedback</button>
+    </div>
+  );
+};
+
 const ManageClasses = () => {
   const [classes, setClasses] = useState([]);
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [selectedClassId, setSelectedClassId] = useState("");
 
   useEffect(() => {
     const fetchClasses = async () => {
@@ -44,7 +80,13 @@ const ManageClasses = () => {
   };
 
   const handleSendFeedback = (classId) => {
-    // Open the modal and handle sending feedback to the instructor
+    setSelectedClassId(classId);
+    setShowFeedbackModal(true);
+  };
+
+  const handleCloseFeedbackModal = () => {
+    setShowFeedbackModal(false);
+    setSelectedClassId("");
   };
 
   return (
@@ -57,7 +99,7 @@ const ManageClasses = () => {
           <div className="flex">
             <img src={cls.image} alt="Class Image" className="w-1/4" />
             <div className="ml-4">
-              <p className="font-bold">Class Name: {cls.name}</p>
+              <p>Class Name: {cls.name}</p>
               <p>Instructor Name: {cls.instructorName}</p>
               <p>Instructor Email: {cls.instructorEmail}</p>
               <p>Available Seats: {cls.availableSeats}</p>
@@ -89,6 +131,18 @@ const ManageClasses = () => {
           </div>
         </div>
       ))}
+
+      {showFeedbackModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50">
+          <div className="bg-white p-8">
+            <h2 className="text-xl mb-4">Send Feedback</h2>
+            <SendFeedbackModal
+              classId={selectedClassId}
+              onClose={handleCloseFeedbackModal}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

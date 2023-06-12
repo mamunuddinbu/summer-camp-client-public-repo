@@ -24,7 +24,6 @@ const Home = () => {
       <SliderComponent/>
       <h1 className="text-3xl text-center bg-green-400 m-4 p-4">Popular Classes</h1>
       <PopularClasses/>
-      <h1 className="text-3xl text-center bg-green-400 m-4 p-4">Popular Instructor</h1>
       <PopularInstructors></PopularInstructors>
       <Testimonials></Testimonials>
     </div>

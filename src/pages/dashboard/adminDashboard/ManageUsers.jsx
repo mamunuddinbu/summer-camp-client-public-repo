@@ -1,12 +1,12 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import Swal from "sweetalert2";
 
 const ManageUsers = () => {
-  const [refetch, setRefetch] = useState(true)
+  const [refetch, setRefetch] = useState(null);
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    console.log("refetching");
     fetchUsers();
   }, [refetch]);
 
@@ -17,42 +17,72 @@ const ManageUsers = () => {
 
   const handleMakeAdmin = async (userId) => {
     await axios.put(`http://localhost:5000/makeAdmin/${userId}`);
-    setRefetch(!refetch);     
+    setRefetch(new Date().getTime());
+    Swal.fire({
+      position: 'center',
+      icon: 'success',
+      title: 'Admin Successfully Crated',
+      showConfirmButton: false,
+      timer: 1500
+    })
   };
 
   const handleMakeInstructor = async (userId) => {
     await axios.put(`http://localhost:5000/makeInstructor/${userId}`);
-    setRefetch(!refetch);
-    // Refetch the updated user data
+    setRefetch(new Date().getTime());
+    Swal.fire({
+      position: 'center',
+      icon: 'success',
+      title: 'Instructor Successfully Crated',
+      showConfirmButton: false,
+      timer: 1500
+    })
+  
   };
 
   return (
     <div>
-      {users.map((user, index) => (
-        <div className="bg-green-200 m-4 p-4" key={user._id}>
-          <div className="flex ">
-            <p className="w-5">{index + 1}.</p>
-            <p className="w-1/5">Name: {user.name}</p>
-            <p className="w-1/4">{user.email}</p>
-            <p className="w-1/5">Role: {user.role}</p>
-          </div>
-
-          <button
-            className="btn bg-green-700 p-4 m-4 text-white"
-            disabled={user.role === "admin"}
-            onClick={() => handleMakeAdmin(user._id)}
-          >
-            Make Admin
-          </button>
-          <button
-            className="btn bg-green-700 p-4 m-4 text-white"
-            disabled={user.role === "instructor" || user.role === "admin"}
-            onClick={() => handleMakeInstructor(user._id)}
-          >
-            Make Instructor
-          </button>
-        </div>
-      ))}
+      <h2 className="text-2xl font-bold mb-4">Manage Users</h2>
+      <div className="overflow-x-auto">
+        <table className="table w-full">
+          <thead>
+            <tr>
+              <th className="table-header">Name</th>
+              <th className="table-header">Email</th>
+              <th className="table-header">Role</th>
+              <th className="table-header">Make Admin</th>
+              <th className="table-header">Make Instructor</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((user) => (
+              <tr key={user._id}>
+                <td>{user.name}</td>
+                <td>{user.email}</td>
+                <td>{user.role}</td>
+                <td>
+                  <button
+                    className="btn btn-primary"
+                    disabled={user.role === "admin"}
+                    onClick={() => handleMakeAdmin(user._id)}
+                  >
+                    Make Admin
+                  </button>
+                </td>
+                <td>
+                  <button
+                    className="btn btn-primary"
+                    disabled={user.role === "instructor" || user.role === "admin"}
+                    onClick={() => handleMakeInstructor(user._id)}
+                  >
+                    Make Instructor
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

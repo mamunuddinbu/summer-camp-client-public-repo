@@ -26,9 +26,6 @@ const MySelectedClasses = () => {
           prevClasses.filter((classItem) => classItem._id !== classId)
         );
       })
-      .catch((error) => {
-        console.error("Error deleting class:", error);
-      });
   };
   
   

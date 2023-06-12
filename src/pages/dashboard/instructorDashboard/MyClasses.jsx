@@ -19,6 +19,11 @@ const MyClasses = () => {
     }
   };
 
+
+
+
+  
+
   return (
     <div>
       <h2 className="text-2xl font-bold mb-4">My Classes</h2>
@@ -39,7 +44,8 @@ const MyClasses = () => {
                 <td className="w-1/5 px-4 py-2">{cls.name}</td>
                 <td className="w-1/5 px-4 py-2">{cls.status}</td>
                 <td className="w-1/5 px-4 py-2">{cls.totalEnrolledStudents}</td>
-                <td className="w-1/5 px-4 py-2">{cls.status === "denied" ? cls.feedback : "-"}</td>
+                <td className="w-1/5 px-4 py-2">{cls.feedback}</td>
+                {/* <td className="w-1/5 px-4 py-2">{cls.status === "denied" ? cls.feedback : "-"}</td> */}
                 <td className="w-1/5 px-4 py-2">
                   <button className="bg-blue-500 text-white px-4 py-2 rounded-md">Edit</button>
                 </td>
