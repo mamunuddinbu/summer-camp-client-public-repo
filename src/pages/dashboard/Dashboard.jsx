@@ -12,8 +12,8 @@ import StudentDashboard from "./studentDashboard/StudentDashboard";
 const Dashboard = () => {
   const { user } = useContext(AuthContext);
   const [isAdmin] = useAdmin(user?.email);
-  const [isInstructor, isInstructorLoading] = useInstructor(user?.email);
-  const [isStudent, isStudentLoading] = useStudent(user?.email);
+  const [isInstructor] = useInstructor(user?.email);
+  const [isStudent] = useStudent(user?.email);
 
   return (
     <div>

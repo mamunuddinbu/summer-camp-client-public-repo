@@ -20,6 +20,7 @@ const Home = () => {
         {isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
       </button>
       <SliderComponent/>
+      <h1 className="text-3xl text-center bg-green-400 m-4 p-4">Popular Classes</h1>
       <PopularClasses/>
     </div>
   );

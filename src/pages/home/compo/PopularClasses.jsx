@@ -1,9 +1,18 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import useTitle from "../../../hooks/useTitle";
+import { useContext } from "react";
+import { AuthContext } from "../../auth/AuthProvider";
+import useAdmin from "../../../hooks/useAdmin";
+import useInstructor from "../../../hooks/useInstructor";
 
 const PopularClasses = () => {
+  const { user } = useContext(AuthContext);
+  const [isAdmin] = useAdmin(user?.email);
+  const [isInstructor] = useInstructor(user?.email);
+
   const [classes, setClasses] = useState([]);
+  
 
   useEffect(() => {
     const fetchClasses = async () => {
@@ -21,7 +30,8 @@ const PopularClasses = () => {
   }, []);
 console.log(classes);
   return (
-    <div className="grid grid-cols-3 gap-3 mt-4">
+    <div className="grid md:grid-cols-3 sd:grid-cols-1 gap-3 mt-4">
+      
       {classes.map((classItem) => (
         <div
           key={classItem.id}
@@ -45,7 +55,7 @@ console.log(classes);
             {classItem.availableSeats === 0 ? (
               <p>Class is full</p>
             ) : (
-              <button disabled={false} className="btn btn-primary">
+              <button disabled={isAdmin || isInstructor} className="btn btn-primary ">
                 Select
               </button>
             )}

@@ -17,7 +17,6 @@ const MySelectedClasses = () => {
   }, []);
 
   const handleDeleteClass = (classId) => {
-    console.log(classId);
     fetch(`http://localhost:5000/deleteClass/${classId}`, {
       method: "DELETE"
     })

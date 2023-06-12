@@ -39,6 +39,7 @@ const AddClassForm = () => {
             price,
             instructorName: user.displayName,
             instructorEmail: user.email,
+            enrolledStudent:0,
           };
 
           // Make an HTTP POST request to your backend server
