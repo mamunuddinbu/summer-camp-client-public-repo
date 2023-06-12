@@ -4,6 +4,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../auth/AuthProvider";
 import useAdmin from "../../../hooks/useAdmin";
 import useInstructor from "../../../hooks/useInstructor";
+import { motion } from "framer-motion"; // Import the motion component from Framer Motion
 
 const PopularClasses = () => {
   const { user } = useContext(AuthContext);
@@ -11,7 +12,6 @@ const PopularClasses = () => {
   const [isInstructor] = useInstructor(user?.email);
 
   const [classes, setClasses] = useState([]);
-  
 
   useEffect(() => {
     const fetchClasses = async () => {
@@ -27,18 +27,25 @@ const PopularClasses = () => {
 
     fetchClasses();
   }, []);
-console.log(classes);
+  console.log(classes);
+
   return (
-    <div className="grid md:grid-cols-3 sd:grid-cols-1 gap-3 mt-4">
-      
+    <motion.div
+      className="grid md:grid-cols-3 sd:grid-cols-1 gap-3 mt-4"
+      initial={{ opacity: 0 }} // Initial animation state
+      animate={{ opacity: 1 }} // Animation on component mount
+      transition={{ duration: 0.5 }} // Animation duration
+    >
       {classes.map((classItem) => (
-        <div
+        <motion.div
           key={classItem.id}
           className={`card ${
             classItem.availableSeats === 0
               ? "bg-red-500 p-3"
               : "bg-green-200 p-3"
           }`}
+          whileHover={{ scale: 1.05 }} // Animation on hover
+          whileTap={{ scale: 0.95 }} // Animation on tap/click
         >
           {/* <img src={classItem.image} alt={classItem.name} className="rounded-xl" /> */}
           <img
@@ -54,14 +61,17 @@ console.log(classes);
             {classItem.availableSeats === 0 ? (
               <p>Class is full</p>
             ) : (
-              <button disabled={isAdmin || isInstructor} className="btn btn-primary ">
+              <button
+                disabled={isAdmin || isInstructor}
+                className="btn btn-primary "
+              >
                 Select
               </button>
             )}
           </div>
-        </div>
+        </motion.div>
       ))}
-    </div>
+    </motion.div>
   );
 };
 

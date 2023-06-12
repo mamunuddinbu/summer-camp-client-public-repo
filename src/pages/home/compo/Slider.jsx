@@ -2,14 +2,15 @@ import React from 'react';
 import Slider from 'react-slick';
 import './../../../css/slick.css';
 import './../../../css/slick-theme.css';
+import { motion } from 'framer-motion';
 
-import img1 from './../../../assets/sliderIMG/1.jpeg';
+import img1 from './../../../assets/sliderIMG/1.jpg';
 import img2 from './../../../assets/sliderIMG/2.jpg';
-import img3 from './../../../assets/sliderIMG/3.jpeg';
-import img4 from './../../../assets/sliderIMG/4.jpeg';
-import img5 from './../../../assets/sliderIMG/5.jpeg';
-import img6 from './../../../assets/sliderIMG/6.jpeg';
-import img8 from './../../../assets/sliderIMG/8.jpeg';
+import img3 from './../../../assets/sliderIMG/3.jpg';
+import img4 from './../../../assets/sliderIMG/4.jpg';
+import img5 from './../../../assets/sliderIMG/5.jpg';
+import img6 from './../../../assets/sliderIMG/6.jpg';
+import img7 from './../../../assets/sliderIMG/7.jpg';
 
 const SliderComponent = () => {
   const settings = {
@@ -19,7 +20,7 @@ const SliderComponent = () => {
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 1000,
+    autoplaySpeed: 3000,
     arrows: false,
   };
 
@@ -49,20 +50,25 @@ const SliderComponent = () => {
       text: 'Explore exciting destinations during our camp excursions.',
     },
     {
-      image: img8,
-      text: 'Join us for an unforgettable summer adventure!',
+      image: img7,
+      text: 'Explore exciting destinations during our camp excursions.',
     },
   ];
 
   return (
-    <div className="">
+    <div className="relative">
       <Slider {...settings}>
         {slides.map((slide, index) => (
-          <div className="w-full h-3/4" key={index}>
-            <div className="text-white text-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-              <h2 className="text-3xl font-bold bg-red-600 mb-4">{slide.text}</h2>
-            </div>
-            <img src={slide.image} alt={`Slider ${index + 1}`} className="w-full h-[200px]" />
+          <div className="relative" key={index}>
+            <img src={slide.image} alt={`Slider ${index + 1}`} className="w-full h-[400px]" />
+            <motion.div
+              className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gradient-to-t from-black via-transparent to-transparent p-4"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <h2 className="text-white text-3xl font-bold mb-4">{slide.text}</h2>
+            </motion.div>
           </div>
         ))}
       </Slider>

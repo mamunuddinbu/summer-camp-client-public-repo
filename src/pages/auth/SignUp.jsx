@@ -19,6 +19,22 @@ const SignUp = () => {
 
   const onSubmit = (data) => {
     setSignUpError("");
+   // Password validation
+   const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.{6,})/;
+   if (!passwordRegex.test(data.password)) {
+     if (data.password.length < 6) {
+       setError("password", { message: "Password must be at least 6 characters" });
+     }
+     if (!/[A-Z]/.test(data.password)) {
+       setError("password", { message: "Password must contain at least one capital letter" });
+     }
+     if (!/[!@#$%^&*]/.test(data.password)) {
+       setError("password", { message: "Password must contain at least one special character" });
+     }
+     return;
+   }
+   //-------------------------
+
     createUser(data.email, data.password)
       .then((result) => {
         const { name, photoUrl } = data;
@@ -78,7 +94,7 @@ const SignUp = () => {
               className="input input-bordered"
             />
             {errors.name && (
-              <span className="text-red-500">Name is required</span>
+              <span className="text-red-500">{errors.message}</span>
             )}
           </div>
           <div className="form-control">

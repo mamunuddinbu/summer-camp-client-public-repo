@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const MySelectedClasses = () => {
   const [selectedClasses, setSelectedClasses] = useState([]);
@@ -26,6 +27,13 @@ const MySelectedClasses = () => {
           prevClasses.filter((classItem) => classItem._id !== classId)
         );
       })
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Deleted Successfully',
+        showConfirmButton: false,
+        timer: 1500
+      });
   };
   
   
@@ -42,7 +50,6 @@ const MySelectedClasses = () => {
               <p className="text-xl font-semibold">
                 Class Name: {classItem.name}
               </p>
-              <p>{classItem._id}</p>
               <p className="text-xl font-semibold">
                 Class Name: {classItem.instructor}
               </p>
@@ -50,7 +57,6 @@ const MySelectedClasses = () => {
               <p className="text-xl font-semibold">
                 Enrolled Student: {classItem.enrolledStudents}
               </p>
-              <p>Class Description: {classItem.description}</p>
               <div>
                 <Link to='payment'>
                   <button className="px-4 w-20 py-2 m-5 bg-blue-500 text-white rounded-lg">

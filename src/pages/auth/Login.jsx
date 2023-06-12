@@ -13,13 +13,13 @@ const Login = () => {
   const navigate = useNavigate();
   const from = location.state?.from?.pathname || '/';
   const [error, setError] = useState('');
-  const [loginEmail, setLoginEmail] =useState('')
+  const [loginEmail, setLoginEmail] = useState('');
   const [token] = useToken(loginEmail);
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
- if(token){
-  navigate(from, { replace: true });
-
- }
+  if (token) {
+    navigate(from, { replace: true });
+  }
 
   const handleLogin = (event) => {
     event.preventDefault();
@@ -31,14 +31,14 @@ const Login = () => {
       .then((result) => {
         const user = result.user;
         console.log(user);
-        setLoginEmail(user.email)
+        setLoginEmail(user.email);
         Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title: 'Logged In Successfully',
-            showConfirmButton: false,
-            timer: 1500
-          })
+          position: 'center',
+          icon: 'success',
+          title: 'Logged In Successfully',
+          showConfirmButton: false,
+          timer: 1500
+        });
         navigate(from, { replace: true });
       })
       .catch((error) => {
@@ -47,23 +47,21 @@ const Login = () => {
       });
   };
 
-  //////////////////////////////////
-
   const googleProvider = new GoogleAuthProvider();
   const handleGoogleLogin = () => {
     googleLoginProvider(googleProvider)
       .then((result) => {
         const user = result.user;
-        const {displayName, photoURL, email} = user;
+        const { displayName, photoURL, email } = user;
         console.log(user);
-  
+
         const createdUser = {
           name: displayName,
-          email:email,
+          email: email,
           role: "student",
           photo: photoURL,
         };
-  
+
         // Add the user to MongoDB
         fetch("http://localhost:5000/users", {
           method: "POST",
@@ -88,7 +86,7 @@ const Login = () => {
           .catch((error) => {
             console.error(error);
           });
-  
+
         console.log(user);
         navigate(from, { replace: true });
       })
@@ -97,8 +95,10 @@ const Login = () => {
         setError(error);
       });
   };
-  
-  ///////////////////////////////////////
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
 
   return (
     <div className="hero min-h-screen bg-base-200">
@@ -122,12 +122,47 @@ const Login = () => {
               <label className="label">
                 <span className="label-text">Password</span>
               </label>
-              <input
-                type="password"
-                name="password"
-                placeholder="password"
-                className="input input-bordered"
-              />
+              <div className="relative">
+                <input
+                  type={passwordVisible ? "text" : "password"}
+                  name="password"
+                  placeholder="password"
+                  className="input input-bordered pr-12"
+                />
+                <button
+                  type="button"
+                  className="absolute top-1/2 right-2 transform -translate-y-1/2 text-gray-500"
+                  onClick={togglePasswordVisibility}
+                >
+                  {passwordVisible ? (
+                    <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 3.5A6.5 6.5 0 0 0 3.5 10a6.5 6.5 0 1 0 13 0A6.5 6.5 0 0 0 10 3.5zm0 11a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9zm-1-4.5a1 1 0 1 1 2 0v1a1 1 0 0 1-2 0v-1zm1-8a8 8 0 1 0 0 16A8 8 0 0 0 11 1.5z"
+                    />
+                  </svg>
+                  
+                  ) : (
+                    <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16zm0 14a6 6 0 1 0 0-12 6 6 0 0 0 0 12zm0-8a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0V9a1 1 0 0 1 1-1zm1 7h2a1 1 0 1 1 0 2h-2a1 1 0 0 1 0-2zm-6 0h2a1 1 0 1 1 0 2H5a1 1 0 0 1 0-2z"
+                    />
+                  </svg>
+                  
+                  )}
+                </button>
+              </div>
               <label className="label">
                 <a href="#" className="label-text-alt link link-hover">
                   Forgot password?
